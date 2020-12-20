@@ -1,0 +1,66 @@
+{% extends "tracker/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <section class="hero is-primary">
+      <div class="hero-body">
+          <div class="container">
+              <h1 class="title">
+                  Discover your optimal route...
+              </h1>
+          </div>
+      </div>
+  </section>
+  <section class="section">
+      <div class="container">
+          <div class="columns">
+              <div class="column is-offset-4 is-4">
+                  <form method="POST">
+                    {% csrf_token %}
+                      <div class="field has-addons">
+                          <div class="control is-expanded">
+                              {{ form.name }}
+                          </div>
+                          <div class="control">
+                              <button type="submit" button class="button is-info">
+                                  Add Country
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </section>
+  <section class="section">
+      <div class="container">
+          <div class="columns">
+              <div class="column is-offset-4 is-4">
+                {% for country_info in covid_data %}
+                  <div class="content-section">
+                      <div class="box">
+                          <article class="media">
+                              <div class="media-content">
+                                  <div class="content">
+                                      <p>
+                                        Country:
+                                        <span class="title">
+                                          {{ country_info.location }}
+                                        </span>
+                                        <br>
+                                        Cases:
+                                        <span class="Cases">{{ country_info.confirmed }}</span>
+                                        <br>
+                                        Deaths:
+                                        <span class="Deaths"> {{ country_info.dead }}</span>
+                                      </p>
+                                  </div>
+                              </div>
+                            </article>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+              </div>
+          </div>
+  </section>
+{% endblock content %}
