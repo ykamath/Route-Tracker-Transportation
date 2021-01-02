@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, LocationForm
 from .models import Location
+from django.http import HttpResponseRedirect
 import requests
 
 
@@ -20,24 +21,33 @@ def register(request):
 
 @login_required
 def profile(request):
-    url = 'https://www.trackcorona.live/api/countries/{}'
-    locations = Location.objects.all()
-    covid_data = []
+    # url = 'https://www.trackcorona.live/api/countries/{}'
+    # covid_data = []
+
     if request.method == 'POST':
         form = LocationForm(request.POST)
-        form.save()
+        if form.is_valid():
+            form.save()
+            
+    else:
+        form = LocationForm()
 
-    form = LocationForm()
-    for location in locations:
-        r = requests.get(url.format(location)).json()
-        country_info = {
-        'location': r['data'][0]['location'],
-        'confirmed': r['data'][0]['confirmed'],
-        'dead': r['data'][0]['dead'],
-        'recovered': r['data'][0]['recovered'],
-        }
 
-        covid_data.append(country_info)
 
-    context = {'covid_data': covid_data, 'form': form}
+    # locations = Location.objects.all()
+
+    # for location in locations:
+    #     r = requests.get(url.format(location)).json()
+    #     country_info = {
+    #     'location': r['data'][0]['location'],
+    #     'confirmed': r['data'][0]['confirmed'],
+    #     'dead': r['data'][0]['dead'],
+    #     'recovered': r['data'][0]['recovered'],
+    #     }
+    #
+    #     covid_data.append(country_info)
+    #
+    #
+    # context = {'covid_data': covid_data, 'form': form}
+    context = {'form': form}
     return render(request, 'users/profile.html', context)

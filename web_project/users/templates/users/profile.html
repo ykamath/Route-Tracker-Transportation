@@ -10,7 +10,7 @@
           </div>
       </div>
   </section>
-  <section class="section">
+  <!-- <section class="section">
       <div class="container">
           <div class="columns">
               <div class="column is-offset-4 is-4">
@@ -21,9 +21,9 @@
                               {{ form.name }}
                           </div>
                           <div class="control">
-                              <button type="submit" button class="button is-info">
-                                  Add Country
-                              </button>
+                            <div class="form-group">
+                              <button class="btn btn-outline-info button" type="submit">Add Country</button>
+                            </div>
                           </div>
                       </div>
                   </form>
@@ -62,5 +62,15 @@
                 {% endfor %}
               </div>
           </div>
-  </section>
+  </section> -->
+
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="control is-expanded">
+        {{ form.as_p }}
+    </div>
+    <input type="submit" value="Create" />
+</form>
+
 {% endblock content %}
